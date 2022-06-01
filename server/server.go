@@ -33,7 +33,7 @@ func (s *Server) Register(c *envflag.Config) {
 
 func (s *Server) Init(ctx context.Context, t svcrunner.Tools) error {
 	s.log = t.Log.WithName("gchat")
-	s.webhook = &gchat.WebhookClient{Endpoint: s.webhookURL}
+	s.webhook = &gchat.WebhookClient{Endpoint: s.webhookURL, Client: http.DefaultClient}
 	return nil
 }
 
@@ -62,7 +62,17 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "parse request", http.StatusBadRequest)
 		return
 	}
-
+	switch build.Status {
+	case cloudbuildpb.Build_CANCELLED,
+		cloudbuildpb.Build_TIMEOUT,
+		cloudbuildpb.Build_FAILURE,
+		cloudbuildpb.Build_SUCCESS:
+		break
+	default:
+		s.log.Info("ignoring status", "status", build.Status)
+		rw.WriteHeader(http.StatusOK)
+		return
+	}
 	buildDuration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime())
 
 	err = s.webhook.Post(ctx, gchat.WebhookPayload{
