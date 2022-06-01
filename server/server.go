@@ -33,6 +33,7 @@ func (s *Server) Register(c *envflag.Config) {
 
 func (s *Server) Init(ctx context.Context, t svcrunner.Tools) error {
 	s.log = t.Log.WithName("gchat")
+	s.log.Info("debug", "webhook", s.webhookURL)
 	s.webhook = &gchat.WebhookClient{Endpoint: s.webhookURL, Client: http.DefaultClient}
 	return nil
 }
