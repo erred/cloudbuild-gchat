@@ -7,6 +7,7 @@ require (
 	go.seankhliao.com/gchat v0.0.0-20220601124708-b42d5b9c3beb
 	go.seankhliao.com/svcrunner v0.1.2
 	google.golang.org/genproto v0.0.0-20220531173845-685668d2de03
+	google.golang.org/protobuf v1.28.0
 )
 
 require (
@@ -16,5 +17,4 @@ require (
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/grpc v1.46.2 // indirect
-	google.golang.org/protobuf v1.28.0 // indirect
 )

@@ -12,6 +12,7 @@ import (
 	"go.seankhliao.com/svcrunner"
 	"go.seankhliao.com/svcrunner/envflag"
 	cloudbuildpb "google.golang.org/genproto/googleapis/devtools/cloudbuild/v1"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 type Server struct {
@@ -55,7 +56,7 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	var build cloudbuildpb.Build
-	err = json.Unmarshal(msg.Message.Data, &build)
+	err = protojson.Unmarshal(msg.Message.Data, &build)
 	if err != nil {
 		s.log.Error(err, "umarshal build")
 		http.Error(rw, "parse request", http.StatusBadRequest)
