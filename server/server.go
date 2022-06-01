@@ -76,8 +76,8 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	buildDuration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime())
 
 	err = s.webhook.Post(ctx, gchat.WebhookPayload{
-		Text: fmt.Sprintf(`%s | %s | %v\n<%s|build log>`,
-			build.Status, build.BuildTriggerId, buildDuration, build.LogUrl,
+		Text: fmt.Sprintf("%s | %s | %v\n<%s|build log>",
+			build.Status, build.Source.String(), buildDuration, build.LogUrl,
 		),
 	})
 	if err != nil {
