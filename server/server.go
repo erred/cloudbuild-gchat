@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/go-logr/logr"
 	"go.seankhliao.com/gchat"
@@ -73,12 +74,21 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		rw.WriteHeader(http.StatusOK)
 		return
 	}
+
+	// status | trigger-name | repo@branch:commit
+	// duration | build-log
+	ghRepo := "https://github.com/seankhliao"
+	repo := build.Substitutions["REPO_NAME"]
 	buildDuration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime())
+	var buf strings.Builder
+	fmt.Fprintf(&buf, "%s | %s | ", build.Status.String(), build.Substitutions["TRIGGER_NAME"])
+	fmt.Fprintf(&buf, "<%s/%[2]s|%[2]s>", ghRepo, repo)
+	fmt.Fprintf(&buf, "@<%s/%s/tree/%[3]s|%[3]s>", ghRepo, repo, build.Substitutions["BRANCH_NAME"])
+	fmt.Fprintf(&buf, ":<%s/%s/commit/%s|%s>", ghRepo, repo, build.Substitutions["COMMIT_SHA"], build.Substitutions["SHORT_SHA"])
+	fmt.Fprintf(&buf, "\n%v | <%s|build log>", buildDuration, build.LogUrl)
 
 	err = s.webhook.Post(ctx, gchat.WebhookPayload{
-		Text: fmt.Sprintf("%s | %s | %v\n<%s|build log>",
-			build.Status, build.Source.String(), buildDuration, build.LogUrl,
-		),
+		Text: buf.String(),
 	})
 	if err != nil {
 		s.log.Error(err, "post chat msg")
