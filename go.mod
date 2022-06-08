@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/go-logr/logr v1.2.3
 	go.seankhliao.com/gchat v0.0.0-20220606145341-27700a74582c
-	go.seankhliao.com/svcrunner v0.1.9
+	go.seankhliao.com/svcrunner v0.1.10
 	google.golang.org/genproto v0.0.0-20220608133413-ed9918b62aac
 	google.golang.org/protobuf v1.28.0
 )

@@ -56,8 +56,8 @@ github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 go.opentelemetry.io/proto/otlp v0.7.0/go.mod h1:PqfVotwruBrMGOCsRd/89rSnXhoiJIqeYNgFYFoEGnI=
 go.seankhliao.com/gchat v0.0.0-20220606145341-27700a74582c h1:X/0KrX41YpofGDUB/px99oJsPuJZ+HYdfTIGbcyB2+U=
 go.seankhliao.com/gchat v0.0.0-20220606145341-27700a74582c/go.mod h1:wtQXcAF9rzTjUwuqHC1R/B+ytI+W8ztkeaKmSUxu/wE=
-go.seankhliao.com/svcrunner v0.1.9 h1:4MTmv/5N8QSLJWVPGVV66IH/xnANH+YlrwKnfeMe3dU=
-go.seankhliao.com/svcrunner v0.1.9/go.mod h1:VvHUf1nWoIOfqt5bJeiZ4Mk2aSxL8+owiAFZWspfuAs=
+go.seankhliao.com/svcrunner v0.1.10 h1:W0sA6KCnHfFlCMSXE7vytzL4MNiqTA35PVVeZ0JF6tI=
+go.seankhliao.com/svcrunner v0.1.10/go.mod h1:VvHUf1nWoIOfqt5bJeiZ4Mk2aSxL8+owiAFZWspfuAs=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
