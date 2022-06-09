@@ -55,14 +55,14 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(rw, "read request", http.StatusBadRequest)
-		log.Error(err, "read request")
+		log.Error(err, "read request", "ctx", ctx, "http_request", r)
 		return
 	}
 	var msg PubSubMessage
 	err = json.Unmarshal(b, &msg)
 	if err != nil {
 		http.Error(rw, "unmarshal pubsub", http.StatusBadRequest)
-		log.Error(err, "unmarshal pubsub")
+		log.Error(err, "unmarshal pubsub", "ctx", ctx, "http_request", r)
 		return
 	}
 
@@ -70,11 +70,11 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	err = protojson.Unmarshal(msg.Message.Data, &build)
 	if err != nil {
 		http.Error(rw, "unmarshal build", http.StatusBadRequest)
-		log.Error(err, "unmarshal build")
+		log.Error(err, "unmarshal build", "ctx", ctx, "http_request", r)
 		return
 	}
 
-	log = log.WithValues("status", build.Status)
+	log = log.WithValues("status", build.Status, "build", build.Id)
 
 	switch build.Status {
 	case cloudbuildpb.Build_CANCELLED,
@@ -84,7 +84,7 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		break
 	default:
 		rw.WriteHeader(http.StatusOK)
-		log.V(1).Info("ignoring status")
+		log.V(1).Info("ignoring status", "ctx", ctx, "http_request", r)
 		return
 	}
 
@@ -107,11 +107,11 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		http.Error(rw, "post msg", http.StatusInternalServerError)
-		log.Error(err, "post chat msg")
+		log.Error(err, "post chat msg", "ctx", ctx, "http_request", r)
 		return
 	}
 	rw.WriteHeader(http.StatusOK)
-	log.Info("status reported", "build", build.Id)
+	log.Info("status reported", "ctx", ctx, "http_request", r)
 }
 
 // https://cloud.google.com/pubsub/docs/reference/rest/v1/PubsubMessage

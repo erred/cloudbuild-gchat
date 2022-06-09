@@ -8,7 +8,7 @@ require (
 	go.opentelemetry.io/otel v1.7.0
 	go.opentelemetry.io/otel/trace v1.7.0
 	go.seankhliao.com/gchat v0.0.0-20220606145341-27700a74582c
-	go.seankhliao.com/svcrunner v0.2.0
+	go.seankhliao.com/svcrunner v0.2.1
 	google.golang.org/genproto v0.0.0-20220608133413-ed9918b62aac
 	google.golang.org/protobuf v1.28.0
 )
@@ -38,5 +38,4 @@ require (
 	google.golang.org/api v0.83.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/grpc v1.47.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
