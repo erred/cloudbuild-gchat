@@ -9,6 +9,9 @@ import (
 	"strings"
 
 	"github.com/go-logr/logr"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/trace"
 	"go.seankhliao.com/gchat"
 	"go.seankhliao.com/svcrunner"
 	"go.seankhliao.com/svcrunner/envflag"
@@ -17,9 +20,10 @@ import (
 )
 
 type Server struct {
-	webhookURL string
-	webhook    *gchat.WebhookClient
-	log        logr.Logger
+	webhook gchat.WebhookClient
+
+	log   logr.Logger
+	trace trace.Tracer
 }
 
 func New(hs *http.Server) *Server {
@@ -29,18 +33,23 @@ func New(hs *http.Server) *Server {
 }
 
 func (s *Server) Register(c *envflag.Config) {
-	c.StringVar(&s.webhookURL, "gchat.webhook", "", "webhook endpoint for google chat")
+	c.StringVar(&s.webhook.Endpoint, "gchat.webhook", "", "webhook endpoint for google chat")
 }
 
 func (s *Server) Init(ctx context.Context, t svcrunner.Tools) error {
-	s.log = t.Log.WithName("gchat")
-	s.webhook = &gchat.WebhookClient{Endpoint: s.webhookURL, Client: http.DefaultClient}
+	s.log = t.Log.WithName("cloudbuild-gchat")
+	s.trace = otel.Tracer("cloudbuild-gchat")
+
+	s.webhook.Client = &http.Client{
+		Transport: otelhttp.NewTransport(nil),
+	}
 	return nil
 }
 
 func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	log := s.log
+	log := s.log.WithName("serve")
+	ctx, span := s.trace.Start(r.Context(), "serve")
+	defer span.End()
 
 	defer r.Body.Close()
 	b, err := io.ReadAll(r.Body)
@@ -79,6 +88,8 @@ func (s *Server) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx, span = s.trace.Start(ctx, "send message")
+	defer span.End()
 	// status | trigger-name | repo@branch:commit
 	// duration | build-log
 	ghRepo := "https://github.com/seankhliao"
