@@ -8,7 +8,7 @@ require (
 	go.opentelemetry.io/otel v1.11.2-0.20221123155348-1f5e6adbf2ca
 	go.opentelemetry.io/otel/trace v1.11.1
 	go.seankhliao.com/gchat v0.0.0-20220612154931-8f1077ccd269
-	go.seankhliao.com/svcrunner v0.4.1
+	go.seankhliao.com/svcrunner v0.4.3
 	google.golang.org/genproto v0.0.0-20221118155620-16455021b5e6
 	google.golang.org/protobuf v1.28.1
 )
