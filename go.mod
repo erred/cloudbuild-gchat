@@ -3,18 +3,17 @@ module go.seankhliao.com/cloudbuild-gchat
 go 1.19
 
 require (
+	cloud.google.com/go/cloudbuild v1.9.0
 	github.com/go-logr/logr v1.2.3
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.36.4
 	go.opentelemetry.io/otel v1.11.2-0.20221123155348-1f5e6adbf2ca
 	go.opentelemetry.io/otel/trace v1.11.1
 	go.seankhliao.com/gchat v0.0.0-20220612154931-8f1077ccd269
 	go.seankhliao.com/svcrunner v0.4.9
-	google.golang.org/genproto v0.0.0-20230403163135-c38d8f061ccd
 	google.golang.org/protobuf v1.30.0
 )
 
 require (
-	cloud.google.com/go/cloudbuild v1.9.0 // indirect
 	cloud.google.com/go/compute v1.19.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	cloud.google.com/go/longrunning v0.4.1 // indirect
@@ -60,5 +59,6 @@ require (
 	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/api v0.114.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/genproto v0.0.0-20230403163135-c38d8f061ccd // indirect
 	google.golang.org/grpc v1.54.0 // indirect
 )
